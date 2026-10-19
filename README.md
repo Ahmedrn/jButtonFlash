@@ -16,4 +16,4 @@ Copy the `jButtonFlash` folder into `Interface\AddOns`.
 - Buttons are re-hooked on `PLAYER_ENTERING_WORLD` to catch late-created bars.
 
 ## Credits
-Original addon by jwldnr. Check the upstream repository for its license terms.
+Original addon by jwldnr ([woldner/jButtonFlash](https://github.com/woldner/jButtonFlash), MIT).
