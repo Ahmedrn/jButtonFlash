@@ -1,7 +1,7 @@
 ## Interface: 30300
 ## Title: jButtonFlash (WotLK 3.3.5a)
 ## Notes: Adds a flash animation to pressed action buttons (Blizzard bars and Bartender4). Inspired by SnowfallKeyPress.
-## Version: 1.8-wotlk1
+## Version: 1.0.0
 ## Author: jwldnr (original), Ahmedrn (3.3.5a port)
 
 jButtonFlash.lua
