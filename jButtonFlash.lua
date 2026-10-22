@@ -30,6 +30,7 @@ function Addon:OnEvent(event, ...)
 end
 
 function Addon:PLAYER_LOGIN()
+  self:HookBartender()
   self:SetupButtonFlash()
   self:HookActionEvents()
 
@@ -37,7 +38,18 @@ function Addon:PLAYER_LOGIN()
   self.frame:RegisterEvent('PLAYER_ENTERING_WORLD')
 end
 
+-- Bartender4 creates the buttons of a bar when it is enabled or a profile is loaded, which can be long after login
+function Addon:HookBartender()
+  local bt4 = _G.Bartender4
+  if (self.bt4Hooked or not bt4 or not bt4.Button or not bt4.Button.Create) then return end
+  self.bt4Hooked = true
+  hooksecurefunc(bt4.Button, 'Create', function()
+    self:HookActionEvents()
+  end)
+end
+
 function Addon:PLAYER_ENTERING_WORLD()
+  self:HookBartender()
   -- action bar addons (Bartender4) may create buttons after login
   self:HookActionEvents()
 end
@@ -98,13 +110,14 @@ do
     local prefixes = {
       'ActionButton', 'MultiBarBottomLeftButton', 'MultiBarBottomRightButton',
       'MultiBarRightButton', 'MultiBarLeftButton', 'BonusActionButton', 'BT4Button',
+      'BT4PetButton', 'BT4StanceButton',
     }
+    -- Bartender4 only creates the buttons of the bars that are enabled, so there can be gaps
+    -- (bar 2 off: BT4Button13-24 do not exist, BT4Button25 does): never stop at the first missing one.
     for _, prefix in ipairs(prefixes) do
       for i = 1, 120 do
         local button = _G[prefix..i]
-        if (not button) then
-          if (i > 12) then break end
-        else
+        if (button) then
           self:HookButton(button)
         end
       end
